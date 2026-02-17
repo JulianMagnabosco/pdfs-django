@@ -1,0 +1,35 @@
+{% extends 'pdfs/base.html' %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Mis PDFs</h1>
+    <a class="btn btn-primary" href="{% url 'upload' %}">Subir PDF</a>
+  </div>
+
+  {% if pdfs %}
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tamaño</th>
+            <th>Subido</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for pdf in pdfs %}
+            <tr>
+              <td>{{ pdf.filename }}</td>
+              <td>{{ pdf.size }} bytes</td>
+              <td>{{ pdf.uploaded_at|date:"Y-m-d H:i" }}</td>
+              <td><a class="btn btn-sm btn-outline-secondary" href="{% url 'download' pdf.pk %}">Descargar</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No has subido PDFs todavía.</p>
+  {% endif %}
+{% endblock %}

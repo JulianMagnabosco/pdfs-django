@@ -1,0 +1,17 @@
+{% extends 'pdfs/base.html' %}
+
+{% block content %}
+  <h1 class="h3 mb-3">Subir PDF</h1>
+  <form method="post" enctype="multipart/form-data" class="mb-3">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.file.label_tag }}
+      {{ form.file }}
+      {% if form.file.errors %}
+        <div class="text-danger small">{{ form.file.errors }}</div>
+      {% endif %}
+    </div>
+    <button class="btn btn-success">Subir</button>
+    <a class="btn btn-link" href="{% url 'pdf_list' %}">Volver</a>
+  </form>
+{% endblock %}
