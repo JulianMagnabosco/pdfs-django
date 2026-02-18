@@ -12,6 +12,7 @@ Características principales
 - Administración en Django admin
 - CORS habilitado para desarrollo
 - Límite de tamaño de PDFs: **10 MB**
+- **HECHO CON VSCODE COPILOT**
 
 Cómo ejecutar (Docker)
 1. Copia `.env.example` a `.env` si deseas modificar variables.
