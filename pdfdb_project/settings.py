@@ -52,6 +52,22 @@ MAX_UPLOAD_PDF_SIZE = 10 * 1024 * 1024
 
 ROOT_URLCONF = 'pdfdb_project.urls'
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'pdfs' / 'templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+
 WSGI_APPLICATION = 'pdfdb_project.wsgi.application'
 
 DATABASES = {
