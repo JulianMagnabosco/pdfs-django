@@ -1,11 +1,19 @@
 import os
 from pathlib import Path
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get('DEBUG', '1') in ('1', 'True', 'true')
-ALLOWED_HOSTS = ['*']
+PROD = os.environ.get('PROD', '0') in ('1', 'True', 'true')
+
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",")
+
+SECURE_SSL_REDIRECT = PROD
+CSRF_COOKIE_SECURE = PROD
+SESSION_COOKIE_SECURE = PROD
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,15 +56,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pdfdb_project.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRES_DB', 'postgres'),
-        'USER': os.environ.get('POSTGRES_USER', 'postgres'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'admin'),
-        'HOST': os.environ.get('DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
-    }
+    'default': dj_database_url.config(
+        default='postgres://postgres:admin@localhost:5432/postgres',
+        conn_max_age=600,
+        conn_health_checks=True,
+    ),
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -86,3 +92,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'login'
+
+
+SESSION_COOKIE_AGE = 60 * 60 * 2  # 2 horas
