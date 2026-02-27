@@ -8,8 +8,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get('DEBUG', '1') in ('1', 'True', 'true')
 PROD = os.environ.get('PROD', '0') in ('1', 'True', 'true')
 
-ALLOWED_HOSTS = ["admin.testvps.uno"]
-CSRF_TRUSTED_ORIGINS = ["https://admin.testvps.uno"]
+_allowed_hosts = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = [host.strip() for host in _allowed_hosts.split(',')]
+
+_csrf_origins = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000')
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in _csrf_origins.split(',')]
 
 SECURE_SSL_REDIRECT = PROD
 CSRF_COOKIE_SECURE = PROD
