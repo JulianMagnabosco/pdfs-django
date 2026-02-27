@@ -17,14 +17,12 @@ build = "python manage.py collectstatic --noinput"
 PYTHONUNBUFFERED = "1"
 PYTHONDONTWRITEBYTECODE = "1"
 
-SECRET_KEY = "${SECRET_KEY}"
-DEBUG = "${DEBUG}"
-PROD = "${PROD}"
-
-DATABASE_URL = "${DATABASE_URL}"
-
-ALLOWED_HOSTS = "${ALLOWED_HOSTS}"
-CSRF_TRUSTED_ORIGINS = "${CSRF_TRUSTED_ORIGINS}"
+SECRET_KEY=3^bck8q9g0nu)4hr3bxyd9(bs70p3g$hkp=3u%)@vmnwn#3dw2
+DEBUG=1
+PROD=0
+DATABASE_URL=postgresql://testdb:Gwqa_1369@testapp-db-6nmiuf:5432/testdb
+ALLOWED_HOSTS=testvps.uno,admin.testvps.uno
+CSRF_TRUSTED_ORIGINS=https://testvps.uno,https://admin.testvps.uno
 
 # Comando de inicio
 [start]
