@@ -1,30 +1,13 @@
-[build]
-# Detectar como proyecto Python
-nixpacks = ["python311", "postgresql"]
+[phases.setup]
+nixPkgs = ["python311", "gcc"]
 
-# Variables de construcción
-[build.variables]
-PYTHONUNBUFFERED = "1"
-PYTHONDONTWRITEBYTECODE = "1"
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
 
-# Instalar dependencias
-[build.commands]
-setup = "pip install -r requirements.txt"
-build = "python manage.py collectstatic --noinput"
+[phases.build]
+cmds = [
+  "python manage.py collectstatic --noinput",
+]
 
-# Variables de entorno en tiempo de ejecución
-[env]
-PYTHONUNBUFFERED = "1"
-PYTHONDONTWRITEBYTECODE = "1"
-
-SECRET_KEY=3^bck8q9g0nu)4hr3bxyd9(bs70p3g$hkp=3u%)@vmnwn#3dw2
-DEBUG=1
-PROD=0
-DATABASE_URL=postgresql://testdb:Gwqa_1369@testapp-db-6nmiuf:5432/testdb
-ALLOWED_HOSTS=testvps.uno,admin.testvps.uno
-CSRF_TRUSTED_ORIGINS=https://testvps.uno,https://admin.testvps.uno
-
-# Comando de inicio
 [start]
-# run = "bash start.sh"
-run = "gunicorn pdfdb_project.wsgi:application --bind 0.0.0.0:8000"
+cmd = "gunicorn pdfdb_project.wsgi:application --bind 0.0.0.0:8000"
