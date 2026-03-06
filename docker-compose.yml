@@ -18,16 +18,12 @@ services:
     ports:
       - "8000:8000"
     environment:
-      SECRET_KEY: dev-secret-key
-      DEBUG: 1
-      POSTGRES_DB: pdfdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      DB_HOST: db
-      DATABASE_URL: postgres://turnerodb:turnerodb1234@db:5432/turnerodb
-      PROD: 0
-      ALLOWED_HOSTS: localhost,app.com
-      CSRF_TRUSTED_ORIGINS: localhost,app.com
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key}
+      DEBUG: ${DEBUG:-1}
+      PROD: ${PROD:-0}
+      DATABASE_URL: ${DATABASE_URL:-postgres://turnerodb:turnerodb1234@db:5432/turnerodb}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,app.com}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-localhost,app.com}
     depends_on:
       - db
 
