@@ -15,7 +15,7 @@ services:
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
       - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
-      - "--certificatesresolvers.letsencrypt.acme.email=admin@example.com"
+      - "--certificatesresolvers.letsencrypt.acme.email=julian.magnabosco@gmail.com"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
     ports:
       - "80:80"
@@ -24,8 +24,6 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_letsencrypt:/letsencrypt
-    networks:
-      - web
     environment:
       - TRAEFIK_CERTIFICATESRESOLVERS_LETSENCRYPT_ACME_HTTPCHALLENGE_ENTRYPOINT=web
 
@@ -38,13 +36,11 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    networks:
-      - web
     expose:
       - "5432"
 
   web:
-    build: .
+    image: ghcr.io/julianmagnabosco/pdfs-django:${GIT_COMMIT_HASH:-latest}
     command: gunicorn pdfdb_project.wsgi:application --bind 0.0.0.0:8000
     volumes:
       - .:/code
@@ -54,13 +50,11 @@ services:
       SECRET_KEY: ${SECRET_KEY:-dev-secret-key}
       DEBUG: ${DEBUG:-1}
       PROD: ${PROD:-0}
-      DATABASE_URL: ${DATABASE_URL:-postgres://turnerodb:turnerodb1234@db:5432/turnerodb}
-      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,app.com}
-      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-localhost,app.com}
+      DATABASE_URL: ${DATABASE_URL:-postgres://postgres:postgres@db:5432/pdfdb}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,testvps.uno}
+      CSRF_TRUSTED_ORIGINS: ${CSRF_TRUSTED_ORIGINS:-localhost,testvps.uno}
     depends_on:
       - db
-    networks:
-      - web
     expose:
       - "8000"
     labels:
@@ -104,7 +98,3 @@ volumes:
   traefik_letsencrypt:
   static_volume:
   media_volume:
-
-networks:
-  web:
-    driver: bridge
