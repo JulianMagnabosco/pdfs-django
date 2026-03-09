@@ -46,4 +46,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/julianmagnabosco/pdfs-django:${{ needs.commit-hash.outputs.commit_hash }}
+          tags:  |
+            ghcr.io/julianmagnabosco/pdfs-django:latest
+            ghcr.io/julianmagnabosco/pdfs-django:${{ needs.commit-hash.outputs.commit_hash }}
