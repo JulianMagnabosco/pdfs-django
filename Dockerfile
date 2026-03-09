@@ -1,5 +1,7 @@
 FROM python:3.11-slim
 
+LABEL org.opencontainers.image.source=https://github.com/JulianMagnabosco/pdfs-django
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
